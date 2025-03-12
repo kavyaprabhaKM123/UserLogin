@@ -1,0 +1,12 @@
+SELECT * FROM swing_demo.student;
+INSERT INTO student (id, name, password)
+VALUES (1, 'Ramesh', 'Ramesh@1234'),
+(2, 'Sam', 'Sam34'),
+(3, 'John', 'John1'),
+(4, 'Jane', 'Jane2'),
+(5, 'Mike', 'Mike3'),
+(6, 'Emily', 'Em4'),
+(7, 'David', 'Dav5'),
+(8, 'Sophia', 'Soph6'),
+(9, 'Kevin', 'Kev7'),
+(10, 'Olivia', 'Oli8');

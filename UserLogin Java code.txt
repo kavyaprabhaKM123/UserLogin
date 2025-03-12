@@ -1,0 +1,90 @@
+package net.javaguides.swing;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class UserLogin extends JFrame {
+
+    private JTextField textField;
+    private JPasswordField passwordField;
+    private JButton btnNewButton;
+
+    public UserLogin() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(450, 190, 400, 300);
+
+        JLabel lblNewLabel = new JLabel("Login");
+        lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+        lblNewLabel.setBounds(150, 20, 100, 30);
+
+        textField = new JTextField();
+        textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        textField.setBounds(100, 70, 200, 30);
+
+        passwordField = new JPasswordField();
+        passwordField.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        passwordField.setBounds(100, 120, 200, 30);
+
+        JLabel lblUsername = new JLabel("Username");
+        lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblUsername.setBounds(20, 70, 80, 30);
+
+        JLabel lblPassword = new JLabel("Password");
+        lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblPassword.setBounds(20, 120, 80, 30);
+
+        btnNewButton = new JButton("Login");
+        btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnNewButton.setBounds(100, 180, 100, 30);
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String userName = textField.getText();
+                String password = passwordField.getText();
+                try {
+   Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swing_demo", "root", "Kp@345678");
+  PreparedStatement st = connection.prepareStatement("Select name, password from student where name=? and password=?");
+                    st.setString(1, userName);
+                    st.setString(2, password);
+                    ResultSet rs = st.executeQuery();
+                    if (rs.next()) {
+                        dispose();
+                        JOptionPane.showMessageDialog(btnNewButton, "Login successful");
+                    } else {
+                        JOptionPane.showMessageDialog(btnNewButton, "Invalid credentials");
+                    }
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            }
+        });
+
+        add(lblNewLabel);
+        add(textField);
+        add(passwordField);
+        add(lblUsername);
+        add(lblPassword);
+        add(btnNewButton);
+       setLayout(null);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new UserLogin();
+            }
+        });
+    }
+}
